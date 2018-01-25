@@ -23,7 +23,7 @@ Interval.prototype.overlaps = function (interval) {
  * @returns {boolean}
  */
 Interval.prototype.includes = function (interval) {
-	return this.end > interval.end && this.start < interval.start; 
+	return this.end >= interval.end && this.start <= interval.start; 
 };
 
 /**
@@ -32,7 +32,23 @@ Interval.prototype.includes = function (interval) {
  * @returns {Interval[]}
  */
 Interval.prototype.union = function (interval) {
-	return [this, interval];
+	if(!this.overlaps(interval)) {
+		if(this.start < interval.start) {
+			return [this, interval];	
+		}
+		return [interval, this];
+	}
+	if(this.start < interval.start) {
+		st = this.start;
+	} else {
+		st = interval.start;
+	}
+	if(this.end < interval.end) {
+		en = interval.end;
+	} else {
+		en = this.end;
+	}
+	return new Interval(st, en);
 	
 };
 
@@ -42,7 +58,20 @@ Interval.prototype.union = function (interval) {
  * @returns {Interval|null}
  */
 Interval.prototype.intersection = function (interval) {
-
+	if(!this.overlaps(interval)) {
+		return null;
+	}
+	if(this.start < interval.start) {
+		st = interval.start;
+	} else {
+		st = this.start;
+	}
+	if(this.end > interval.end) {
+		en = interval.end;
+	} else {
+		en = this.end;
+	}
+	return new Interval(st, en);
 };
 
 /**
