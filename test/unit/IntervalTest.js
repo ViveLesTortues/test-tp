@@ -65,7 +65,7 @@ describe("Interval - union", function () {
 		{request :new Interval(10, 20), expected : new Interval(10,20)}
 
     ].forEach(function (interval) {
-        it("includes " + testedInterval.toString() + " and " + interval.request.toString(), function () {
+        it("union " + testedInterval.toString() + " and " + interval.request.toString(), function () {
             expect(testedInterval.union(interval.request)).toEqual(interval.expected);
         });
     });
